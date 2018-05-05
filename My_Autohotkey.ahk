@@ -44,7 +44,7 @@ do_normal_invoke(exe)
 #c::Run cmd
 
 ~/::
-Input, UserInput, V T2 C, , /ns,/xm,/snip,/seer,/fdm,/tv,/netmail,/wsk,/kp,/netmusic,/ls,/si,/ahk,/ditto,/svn,/sc,/mstsc,/date,/time,/tima,/wb,/bt,/tm,/dm,/sys,/csdn,/gfs,/bdy,/bc,/fb,/le,/pp,/wx,/yk,/181,/od,/ie,/md,/py,/qt,/xh
+Input, UserInput, V T2 C, , /ns,/xm,/snip,/seer,/fdm,/tv,/netmail,/wsk,/kp,/netmusic,/ls,/si,/ahk,/ditto,/svn,/sc,/mstsc,/date,/time,/tima,/wb,/bt,/tm,/dm,/sys,/csdn,/gfs,/bdy,/bc,/fb,/le,/pp,/wx,/yk,/od,/ie,/md,/py,/qt,/xh,/gd,/gc
 if (ErrorLevel != "Match")
     return
 if (ErrorLevel = "NewInput")
@@ -53,7 +53,7 @@ if (ErrorLevel = "NewInput")
 StringLength := StrLen(UserInput) + 1
 SendInput {BackSpace %StringLength%}
 
-;;; Work&Home-PC Similar ;;;
+;;; Work&Home-PC Common ;;;
 if (UserInput = "/ns")
     do_normal_invoke("Nutstore.exe")
 else if (UserInput = "/xm")
@@ -87,22 +87,12 @@ else if (UserInput = "/ditto")
 else if (UserInput = "/pp")
     do_normal_invoke("PotPlayerMini64.exe")
 else if (UserInput = "/od")
-    do_normal_invoke("OneDrive.exe")
-else if (UserInput = "/date")
-    SendInput %A_YYYY%/%A_MM%/%A_DD%
-else if (UserInput = "/time")
-    SendInput %A_YYYY%/%A_MM%/%A_DD% %A_Hour%:%A_Min%:%A_Sec%
-else if (UserInput = "/tima")
-    SendInput %A_YYYY%%A_MM%%A_DD%-%A_Hour%%A_Min%%A_Sec%
-else if (UserInput = "/csdn")
-    Run http://www.csdn.net/
-else if (UserInput = "/gfs")
-    Run http://gufenso.huizhanzhang.com/
-else if (UserInput = "/tm")                ;打开任务管理器
+	do_normal_invoke("OneDrive.exe")
+else if (UserInput = "/tm")				;打开任务管理器 
     do_normal_invoke("taskmgr.exe")
-else if (UserInput = "/dm")                ;打开设备管理器
+else if (UserInput = "/dm")				;打开设备管理器
     do_normal_invoke("devmgmt.msc")
-else if (UserInput = "/sys")                 ;打开系统信息
+else if (UserInput = "/sys")			;打开系统属性
     do_normal_invoke("msinfo32.exe")
 else if (UserInput = "/md")
     do_normal_invoke("MarkdownPad 2")
@@ -110,42 +100,62 @@ else if (UserInput = "/py")
     do_normal_invoke("IDLE (Python 3.6 64-bit)")
 else if (UserInput = "/qt")
     do_normal_invoke("QTranslate.exe")
-;;; Work&Home-PC Difference ;;;
+else if (UserInput = "/gd")
+	do_normal_invoke("GitHub Desktop")
+	
+;;; SendInput & Run ;;;
+else if (UserInput = "/date")
+    SendInput %A_YYYY%/%A_MM%/%A_DD%
+else if (UserInput = "/time")
+    SendInput %A_YYYY%/%A_MM%/%A_DD% %A_Hour%:%A_Min%:%A_Sec%
+else if (UserInput = "/tima")
+	SendInput %A_YYYY%%A_MM%%A_DD%-%A_Hour%%A_Min%%A_Sec%
+else if (UserInput = "/gc")
+	SendInput [Change record]{enter}{enter}{enter}[Submitter]{enter}fhqfghgdx{enter}{enter}[Submission date]{enter}%A_YYYY%-%A_MM%-%A_DD%
+else if (UserInput = "/csdn")
+    Run http://www.csdn.net/
+else if (UserInput = "/gfs")
+    Run http://gufenso.huizhanzhang.com/
+
+;;; Work & Home-PC Difference ;;;
+;;; Only in Work-PC ;;;
+else if (UserInput = "/svn")
+	do_normal_invoke("TortoiseSVN Repository Browser")
+else if (UserInput = "/mstsc")		;打开远程连接
+	do_normal_invoke("mstsc.exe")
+else if (UserInput = "/xh")
+	do_normal_invoke("Xshell.exe")
+else if (UserInput = "/ie") {
+	do_normal_invoke("Internet Explorer")
+;		Sleep,2500
+;		SendInput 04719{tab}loNG2263{enter}
+	}
+
+;;; Only in Home-PC ;;;
+if (UserInput = "/bdy")
+	do_normal_invoke("baidunetdisk.exe")
+else if (UserInput = "/fb")
+	do_normal_invoke("foobar2000.exe")
+else if (UserInput = "/le")
+	do_normal_invoke("LeTVLoader.exe")
+else if (UserInput = "/wx")
+	do_normal_invoke("WeChat.exe")
+else if (UserInput = "/yk")
+	do_normal_invoke("YoukuDesktop.exe")
 else if (A_ComputerName = "Work-PC Name")
 {
-    if (UserInput  = "/svn")
-        do_normal_invoke("TortoiseSVN Repository Browser")
-    else if (UserInput = "/181")
-        Run \\192.168.1.181\XXX
-    else if (UserInput = "/sc")
-        SendInput [修改记录]{enter}{enter}{enter}[提交人]{enter}XXX{enter}{enter}[提交日期]{enter}%A_YYYY%-%A_MM%-%A_DD%
-    else if (UserInput = "/mstsc")        ;打开远程连接
-        do_normal_invoke("mstsc.exe")
-    else if (UserInput = "/ie") {
-        do_normal_invoke("Internet Explorer")
-    }
-    else if (UserInput = "/bt")
-        SendInput 周工作总结-XXX-%A_YYYY%-%A_MM%-%A_DD%
-    else if (UserInput = "/wb")
-        SendInput %A_YYYY%-%A_MM%-%A_DD% 日总结：{enter}1.{space}
-    else if (UserInput = "/xh")
-        do_normal_invoke("Xshell.exe")
+	if (UserInput = "/sc")
+		SendInput [修改记录]{enter}{enter}{enter}[提交人]{enter}NAME{enter}{enter}[提交日期]{enter}%A_YYYY%-%A_MM%-%A_DD%
+	else if (UserInput = "/bt")
+		SendInput 周工作总结-NAME-%A_YYYY%-%A_MM%-%A_DD%
+	else if (UserInput = "/wb")
+		SendInput %A_YYYY%-%A_MM%-%A_DD% 日总结：{enter}1.{space}
 }
 else if (A_ComputerName = "Home-PC Name")
 {
-    if (UserInput = "/bdy")
-        do_normal_invoke("baidunetdisk.exe")
-    else if (UserInput = "/fb")
-        do_normal_invoke("foobar2000.exe")
-    else if (UserInput = "/le")
-        do_normal_invoke("LeTVLoader.exe")
-    else if (UserInput = "/wx")
-        do_normal_invoke("WeChat.exe")
-    else if (UserInput = "/yk")
-        do_normal_invoke("YoukuDesktop.exe")
+	; Just for SendInput or Run in Home-PC
 }
 return
-
 
 ;快速搜索
 ;一键百度
